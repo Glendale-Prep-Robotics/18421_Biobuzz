@@ -29,11 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -45,11 +44,11 @@ import com.qualcomm.robotcore.util.Range;
 public class DriverControl extends OpMode{
 
   private ElapsedTime runtime = new ElapsedTime();
-  private DcMotor backleftDrive = null;
-  private DcMotor frontleftDrive = null;
-  private DcMotor backrightDrive = null;
-  private DcMotor frontrightDrive = null;
-
+  private DcMotorEx backleftDrive = null;
+  private DcMotorEx frontleftDrive = null;
+  private DcMotorEx backrightDrive = null;
+  private DcMotorEx frontrightDrive = null;
+  private DcMotor intake = null;
 
 
   /**
@@ -59,15 +58,18 @@ public class DriverControl extends OpMode{
   public void init() {
     telemetry.addData("Status", "Initialized");
 
-  backleftDrive  = hardwareMap.get(DcMotor .class, "backleft_drive");
-  frontleftDrive = hardwareMap.get(DcMotor .class,"frontleft_drive");
-  backrightDrive = hardwareMap.get(DcMotor.class, "backright_drive");
-  frontrightDrive = hardwareMap.get(DcMotor.class,"frontright_drive");
+  backleftDrive  = hardwareMap.get(DcMotorEx.class, "backleft_drive");
+  frontleftDrive = hardwareMap.get(DcMotorEx.class,"frontleft_drive");
+  backrightDrive = hardwareMap.get(DcMotorEx.class, "backright_drive");
+  frontrightDrive = hardwareMap.get(DcMotorEx.class,"frontright_drive");
+  intake = hardwareMap.get(DcMotor.class, "intake");
 
-    backleftDrive. setDirection(DcMotorSimple.Direction.REVERSE);
-    frontleftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-    backrightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-    frontrightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+    backleftDrive. setDirection(DcMotorEx.Direction.FORWARD);
+    frontleftDrive.setDirection(DcMotorEx.Direction.REVERSE);
+    backrightDrive.setDirection(DcMotorEx.Direction.REVERSE);
+    frontrightDrive.setDirection(DcMotorEx.Direction.FORWARD);
+    intake.setDirection(DcMotor.Direction.FORWARD);
+
     telemetry.addData("Status","Initialized");
   }
   /**
@@ -94,33 +96,56 @@ public class DriverControl extends OpMode{
   @Override
   public void loop() {
     telemetry.addData("Status", "Run Time: " + runtime.toString());
-    double backleftPower;
-    double frontleftPower;
-    double backrightPower;
-    double frontrightPower;
+
+
+    double intakePower = gamepad1.left_trigger;
     double drive =-gamepad1.left_stick_y;
     double turn = gamepad1.right_stick_x;
     double strafe = gamepad1.left_stick_x;
 
-    backleftPower = Range.clip(drive - strafe + turn, -1.0,1.0) ;
-    frontleftPower = Range.clip(drive + strafe + turn,-1.0,1.0) ;
-    backrightPower = Range.clip(drive + strafe - turn,-1.0,1.0) ;
-    frontrightPower = Range.clip(drive - strafe - turn,-1.0,1.0);
-
-    backleftDrive.setPower(backleftPower);
-    frontleftDrive.setPower(frontleftPower);
-    backrightDrive.setPower(backrightPower);
-    frontrightDrive.setPower(backleftPower);
+    intake.setPower(intakePower);
+    driveRobot(drive, strafe, turn);
+    toggleIntake(gamepad1.leftTriggerWasPressed());
+    toggleIntakeDirection(gamepad1.leftBumperWasPressed());
 
     telemetry.addData("Status", "Run Time" + runtime.toString());
-    telemetry.addData("Motors","left (%.2f), right (%.2f)", backleftPower, frontleftPower,backrightPower,frontrightPower );
+
   }
 
-  /**
-   * This method will be called once, when this OpMode is stopped.
-   * <p>
-   * Your ability to control hardware from this method will be limited.
-   */
+  public void driveRobot(double drive, double turn, double strafe){
+      double backleftPower;
+      double frontleftPower;
+      double backrightPower;
+      double frontrightPower;
+
+      backleftPower = Range.clip(drive - strafe + turn, -1.0,1.0) ;
+      frontleftPower = Range.clip(drive + strafe + turn,-1.0,1.0) ;
+      backrightPower = Range.clip(drive + strafe - turn,-1.0,1.0) ;
+      frontrightPower = Range.clip(drive - strafe - turn,-1.0,1.0);
+
+      backleftDrive.setPower(backleftPower);
+      frontleftDrive.setPower(frontleftPower);
+      backrightDrive.setPower(backrightPower);
+      frontrightDrive.setPower(backleftPower);
+      telemetry.addData("Motors","left (%.2f), right (%.2f)", backleftPower, frontleftPower,backrightPower,frontrightPower );
+  }
+  public void toggleIntake(boolean leftTriggerPressed){
+      if(leftTriggerPressed && Math.abs(intake.getPower())<.5){
+          intake.setPower(1);
+      }
+      else if (leftTriggerPressed && Math.abs(intake.getPower())>.5){
+          intake.setPower(0);
+      }
+  }
+  public void toggleIntakeDirection(boolean leftBumperPressed){
+      if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.FORWARD){
+          intake.setDirection(DcMotor.Direction.REVERSE);
+      }
+      else if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.REVERSE){
+          intake.setDirection(DcMotor.Direction.FORWARD);
+      }
+  }
+
   @Override
   public void stop() {
 

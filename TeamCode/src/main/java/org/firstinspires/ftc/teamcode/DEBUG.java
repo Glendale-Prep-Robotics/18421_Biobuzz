@@ -63,9 +63,9 @@ public class DEBUG extends OpMode{
   backrightDrive = hardwareMap.get(DcMotor.class, "backright_drive");
   frontrightDrive = hardwareMap.get(DcMotor.class,"frontright_drive");
 
-    backleftDrive. setDirection(DcMotorSimple.Direction.REVERSE);
+    backleftDrive. setDirection(DcMotorSimple.Direction.FORWARD);
     frontleftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-    backrightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+    backrightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
     frontrightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
     telemetry.addData("Status","Initialized");
   }
@@ -96,7 +96,7 @@ public class DEBUG extends OpMode{
 
 
     if (gamepad1.a){
-        backleftDrive.setPower(1);
+        backleftDrive.setPower(1); //reverse
     }
     else{
         backleftDrive.setPower(0);
@@ -106,6 +106,18 @@ public class DEBUG extends OpMode{
     }
     else{
         frontrightDrive.setPower(0);
+    }
+    if (gamepad1.x){
+        backrightDrive.setPower(1); //reverse
+    }
+    else{
+        backrightDrive.setPower(0);
+    }
+    if(gamepad1.y){
+        frontleftDrive.setPower(1);
+    }
+    else{
+        frontleftDrive.setPower(0);
     }
 
   }
