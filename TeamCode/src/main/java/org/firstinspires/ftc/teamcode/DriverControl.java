@@ -126,8 +126,8 @@ public class DriverControl extends OpMode{
       backleftDrive.setPower(backleftPower);
       frontleftDrive.setPower(frontleftPower);
       backrightDrive.setPower(backrightPower);
-      frontrightDrive.setPower(backleftPower);
-      telemetry.addData("Motors","left (%.2f), right (%.2f)", backleftPower, frontleftPower,backrightPower,frontrightPower );
+      frontrightDrive.setPower(frontrightPower);
+      //telemetry.addData("Motors","left (%.2f), right (%.2f)", backleftPower, frontleftPower,backrightPower,frontrightPower );
   }
   public void toggleIntake(boolean leftTriggerPressed){
       if(leftTriggerPressed && Math.abs(intake.getPower())<.5){
@@ -138,10 +138,10 @@ public class DriverControl extends OpMode{
       }
   }
   public void toggleIntakeDirection(boolean leftBumperPressed){
-      if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.FORWARD){
+      if (leftBumperPressed && intake.getDirection() == DcMotor.Direction.FORWARD){
           intake.setDirection(DcMotor.Direction.REVERSE);
       }
-      else if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.REVERSE){
+      else if (leftBumperPressed && intake.getDirection()== DcMotor.Direction.REVERSE){
           intake.setDirection(DcMotor.Direction.FORWARD);
       }
   }
