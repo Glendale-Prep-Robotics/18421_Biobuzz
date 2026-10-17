@@ -65,12 +65,15 @@ public class DriverControl_Encapsulation extends OpMode{
     telemetry.addData("Status", "Run Time: " + runtime.toString());
     boolean intakePower = gamepad1.rightBumperWasPressed();
     boolean intakeDirection = gamepad1.leftBumperWasPressed();
-    double drive =-gamepad1.left_stick_y;
+    double drive = gamepad1.left_stick_y;
     double turn = gamepad1.right_stick_x;
     double strafe = gamepad1.left_stick_x;
+    boolean OuttakePower = gamepad1.rightTriggerWasPressed();
 
-    r.toggleIntake(intakePower);
-    r.toggleIntakeDirection(intakeDirection);
+    r.driveRobot(drive, strafe, turn);
+    //r.toggleIntake(intakePower);
+    //r.toggleIntakeDirection(intakeDirection);
+    //r.toggleOuttake(OuttakePower);
 
     telemetry.addData("Status", "Run Time" + runtime.toString());
   }

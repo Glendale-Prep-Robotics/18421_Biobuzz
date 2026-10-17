@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -49,7 +50,7 @@ public class DriverControl extends OpMode{
   private DcMotorEx backrightDrive = null;
   private DcMotorEx frontrightDrive = null;
   private DcMotor intake = null;
-
+  private DcMotor outtake = null;
 
   /**
    * This method will be called once, when the INIT button is pressed.
@@ -63,12 +64,14 @@ public class DriverControl extends OpMode{
   backrightDrive = hardwareMap.get(DcMotorEx.class, "backright_drive");
   frontrightDrive = hardwareMap.get(DcMotorEx.class,"frontright_drive");
   intake = hardwareMap.get(DcMotor.class, "intake");
+  outtake = hardwareMap.get(DcMotor.class, "outtake");
 
     backleftDrive. setDirection(DcMotorEx.Direction.FORWARD);
     frontleftDrive.setDirection(DcMotorEx.Direction.REVERSE);
     backrightDrive.setDirection(DcMotorEx.Direction.REVERSE);
     frontrightDrive.setDirection(DcMotorEx.Direction.FORWARD);
     intake.setDirection(DcMotor.Direction.FORWARD);
+    outtake.setDirection(DcMotorEx.Direction.FORWARD);
 
     telemetry.addData("Status","Initialized");
   }
@@ -104,7 +107,9 @@ public class DriverControl extends OpMode{
     double strafe = gamepad1.left_stick_x;
 
     intake.setPower(intakePower);
-    driveRobot(drive, strafe, turn);
+
+
+    //driveRobot(drive, strafe, turn);
     toggleIntake(gamepad1.leftTriggerWasPressed());
     toggleIntakeDirection(gamepad1.leftBumperWasPressed());
 
@@ -138,14 +143,21 @@ public class DriverControl extends OpMode{
       }
   }
   public void toggleIntakeDirection(boolean leftBumperPressed){
-      if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.FORWARD){
+      if (leftBumperPressed && intake.getDirection()== DcMotor.Direction.FORWARD){
           intake.setDirection(DcMotor.Direction.REVERSE);
       }
-      else if (gamepad1.leftBumperWasPressed() && intake.getDirection()== DcMotor.Direction.REVERSE){
+      else if (leftBumperPressed && intake.getDirection()== DcMotor.Direction.REVERSE){
           intake.setDirection(DcMotor.Direction.FORWARD);
       }
   }
-
+  public void toggleOuttake(boolean RightTriggerPressed){
+      if(RightTriggerPressed && Math.abs(outtake.getPower())<.5){
+          outtake.setPower(1);
+    }
+      else if (RightTriggerPressed && Math.abs(outtake.getPower())>.5){
+          outtake.setPower(0);
+    }
+}
   @Override
   public void stop() {
 

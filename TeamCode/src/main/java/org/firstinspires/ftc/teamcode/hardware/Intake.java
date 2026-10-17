@@ -5,18 +5,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
     //define all hardware parts
-    private DcMotor intake = null;
+    private final DcMotor intake;
 
     public Intake(HardwareMap hwm){
         intake = hwm.get(DcMotor.class, "intake");
         intake.setDirection(DcMotor.Direction.FORWARD);
     }
 
-    public void toggleIntake(boolean rightTriggerPressed){
-        if(rightTriggerPressed && Math.abs(intake.getPower())<.5){
+    public void toggleIntake(boolean leftTriggerPressed){
+        if(leftTriggerPressed && Math.abs(intake.getPower())<.5){
             intake.setPower(1);
         }
-        else if (rightTriggerPressed && Math.abs(intake.getPower())>.5){
+        else if (leftTriggerPressed && Math.abs(intake.getPower())>.5){
             intake.setPower(0);
         }
     }
