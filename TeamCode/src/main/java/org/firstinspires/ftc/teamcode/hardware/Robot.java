@@ -12,6 +12,7 @@ public class Robot {
     MecanumDrive driveTrain;
     Outtake outtake;
     Intake intake;
+    private Robot servo;
 
     public Robot(HardwareMap hwm){
 
@@ -26,8 +27,14 @@ public class Robot {
     public void toggleIntakeDirection(boolean leftBumperPressed){
         intake.toggleIntakeDirection(leftBumperPressed);
     }
-    public void toggleOuttake(boolean rightTriggerPressed){
-        outtake.toggleOuttake(rightTriggerPressed);
+    public void turnOnShooter(){
+        outtake.turnOnShooter();
+    }
+    public void turnOffShooter(){
+        outtake.turnOffShooter();
+    }
+    public void shooterGate(boolean rightBumperPressed){
+        servo.shooterGate(rightBumperPressed);
     }
 
     public void driveRobot(double drive, double strafe, double turn){
