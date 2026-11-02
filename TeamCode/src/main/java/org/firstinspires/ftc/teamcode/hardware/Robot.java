@@ -4,25 +4,30 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.LED;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class Robot {
 
     MecanumDrive driveTrain;
-    Outtake outtake;
+    public Outtake outtake;
     Intake intake;
-    private Robot servo;
+
+
+        LED frontLED_red;
+        LED frontLED_green;
 
     public Robot(HardwareMap hwm){
-
-        //intake = new Intake(hwm);
-        //outtake = new Outtake(hwm);
+        //frontLED_green = hwm.get(LED.class, "front_led_green");
+        //frontLED_red = hwm.get(LED.class, "front_led_red");
+        intake = new Intake(hwm);
+        outtake = new Outtake(hwm);
         driveTrain = new MecanumDrive(hwm,new Pose2d(0,0,0));
     }
 
-    public void toggleIntake(boolean rightBumperPressed){
-        intake.toggleIntake(rightBumperPressed);
+    public void setIntakeState(boolean intaking, boolean shooting){
+        intake.setIntakeState(intaking, shooting);
     }
     public void toggleIntakeDirection(boolean leftBumperPressed){
         intake.toggleIntakeDirection(leftBumperPressed);
@@ -33,9 +38,17 @@ public class Robot {
     public void turnOffShooter(){
         outtake.turnOffShooter();
     }
-    public void shooterGate(boolean rightBumperPressed){
-        servo.shooterGate(rightBumperPressed);
+    public void shooterGate(boolean button){
+        outtake.setShooterGate(button);
     }
+    /*
+    public void turnOnYellowIndictors(){
+        frontLED_green.on();
+        frontLED_red.on();
+
+    }
+
+     */
 
     public void driveRobot(double drive, double strafe, double turn){
         driveTrain.setDrivePowers(new PoseVelocity2d(
@@ -46,7 +59,4 @@ public class Robot {
                 -turn
         ));
     }
-
-
-
 }

@@ -9,18 +9,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class Outtake {
     //define all hardware parts
-    private final DcMotorEx outtake;
+    public final DcMotorEx outtake;
     private Servo shooterGate;
 
     //Constants
     public static double SHOOTER_GATE_CLOSED_POSITION = 0;
     public static double SHOOTER_GATE_OPEN_POSITION = 1;
-    public static double SHOOTER_SPEED = 10000;
+    public static double SHOOTER_SPEED = 925;
     public static double SHOOTER_OFF = 0;
 
     public Outtake(HardwareMap hwm){
         outtake = hwm.get(DcMotorEx.class, "Outtake");
+        shooterGate = hwm.get(Servo.class, "ShooterGate");
         outtake.setDirection(DcMotor.Direction.FORWARD);
+        shooterGate.setDirection(Servo.Direction.REVERSE);
     }
     public void turnOnShooter(){
         outtake.setVelocity(SHOOTER_SPEED);

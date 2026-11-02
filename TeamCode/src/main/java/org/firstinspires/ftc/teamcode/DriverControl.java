@@ -50,15 +50,13 @@ public class DriverControl extends OpMode{
      * X -
      * Y -
      * LeftBumper - toggle intake direction
-     * RightBumper - open shooter gate
+     * RightBumper - open shooter gate (controlled by gamepad 2)
      * RightTrigger - shoot
      * LeftTrigger - toggle intake
      */
 
-
   private ElapsedTime runtime = new ElapsedTime();
   public Robot r = null;
-
   @Override
   public void init() {
       r = new Robot(hardwareMap);
@@ -72,31 +70,37 @@ public class DriverControl extends OpMode{
   @Override
   public void start() {
     runtime.reset();
-    r.turnOnShooter();
+
   }
 
   @Override
   public void loop() {
     telemetry.addData("Status", "Run Time: " + runtime.toString());
-    boolean intakePower = gamepad1.leftTriggerWasPressed();
-    boolean intakeDirection = gamepad1.leftBumperWasPressed();
+    boolean intakePower = gamepad2.leftTriggerWasPressed();
+    boolean intakeDirection = gamepad2.leftBumperWasPressed();
     double drive = gamepad1.left_stick_y;
     double turn = gamepad1.right_stick_x;
     double strafe = gamepad1.left_stick_x;
 
-    boolean shooterGate = gamepad1.right_trigger > .1;
+    boolean shooting = gamepad2.right_trigger > .1;
+    if (gamepad2.x){
+        r.turnOnShooter();
+    }
+    if (gamepad2.b){
+        r.turnOffShooter();
+    }
 
     r.driveRobot(drive, strafe, turn);
-    //r.toggleIntake(intakePower);
-    //r.toggleIntakeDirection(intakeDirection);
-    //r.toggleOuttake(OuttakePower);
-    r.shooterGate();
-
+    r.setIntakeState(shooting, gamepad2.leftTriggerWasPressed());
+    //TODO Check if this behaves properly.  Might need a different condition for shooting
+    r.toggleIntakeDirection(intakeDirection);
+    r.shooterGate(shooting);
+    telemetry.addData("shooter vel: ", r.outtake.outtake.getVelocity());
     telemetry.addData("Status", "Run Time" + runtime.toString());
   }
 
   @Override
   public void stop() {
-      r.turnOffShooter();
+
   }
 }
