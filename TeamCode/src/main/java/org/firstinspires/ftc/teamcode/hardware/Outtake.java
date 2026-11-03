@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Outtake {
     //define all hardware parts
     public final DcMotorEx outtake;
-    private Servo shooterGate;
+    public Servo shooterGate;
 
     //Constants
     public static double SHOOTER_GATE_CLOSED_POSITION = 0;
