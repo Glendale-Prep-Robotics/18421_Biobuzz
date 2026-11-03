@@ -90,7 +90,7 @@ public class DriverControl extends OpMode{
     //r.toggleIntake(intakePower);
     //r.toggleIntakeDirection(intakeDirection);
     //r.toggleOuttake(OuttakePower);
-    r.shooterGate();
+    //r.shooterGate();
 
     telemetry.addData("Status", "Run Time" + runtime.toString());
   }
