@@ -24,9 +24,9 @@ public class RedAutonomous1 {
         }
 
 
-        Pose2d Path1 = new Pose2d(60,-10,Math.toRadians(180));
+        Pose2d redStartingPosition = new Pose2d(60,-10,Math.toRadians(180));
 
-        Pose2d Path2 = new Pose2d(-70,20,Math.toRadians(180));
+        Pose2d blueStartingPosition = new Pose2d(-70,20,Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -51,7 +51,7 @@ public class RedAutonomous1 {
                 //.build());
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(Path2)
+        myBot.runAction(myBot.getDrive().actionBuilder(blueStartingPosition)
                 //start at left wall blue side and shoot
                 .strafeToLinearHeading(new Vector2d(-30,15), Math.toRadians(0)) //drive to hive
                 .waitSeconds(1)

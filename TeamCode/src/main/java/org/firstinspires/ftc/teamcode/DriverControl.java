@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -59,7 +60,7 @@ public class DriverControl extends OpMode{
   public Robot r = null;
   @Override
   public void init() {
-      r = new Robot(hardwareMap);
+      r = new Robot(hardwareMap,new Pose2d(0,0,0));
       telemetry.addData("Status","Initialized");
   }
 

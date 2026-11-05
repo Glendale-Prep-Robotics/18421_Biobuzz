@@ -8,6 +8,8 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,7 +18,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class Robot {
 
-    MecanumDrive driveTrain;
+    public MecanumDrive driveTrain;
     public Outtake outtake;
     Intake intake;
 
@@ -24,12 +26,12 @@ public class Robot {
         LED frontLED_red;
         LED frontLED_green;
 
-    public Robot(HardwareMap hwm){
+    public Robot(HardwareMap hwm,Pose2d pose){
         //frontLED_green = hwm.get(LED.class, "front_led_green");
         //frontLED_red = hwm.get(LED.class, "front_led_red");
         intake = new Intake(hwm);
         outtake = new Outtake(hwm);
-        driveTrain = new MecanumDrive(hwm,new Pose2d(0,0,0));
+        driveTrain = new MecanumDrive(hwm,pose);
     }
 
     public void setIntakeState(boolean intaking, boolean shooting){
@@ -161,6 +163,14 @@ public class Robot {
 
     //Example Action that has a condition to complete
 
+
+    public class StartIntakeMotors implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intake.intake.setPower(1.0);
+            return false;
+        }
+    }
 
 
 
