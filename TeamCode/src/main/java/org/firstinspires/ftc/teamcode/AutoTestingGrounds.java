@@ -22,6 +22,7 @@ public final class AutoTestingGrounds extends LinearOpMode {
     Vector2d redShootingPosition = new Vector2d(30, -10);
     Pose2d redGarden = new Pose2d(57, -60, Math.toRadians(0));
     Vector2d redAcrossField =new Vector2d(-35, -40);
+    Po
 
     Robot r = new Robot(hardwareMap,redStartingPosition);
 
