@@ -56,13 +56,13 @@ public class RedAutonomous1 {
                 .strafeToLinearHeading(new Vector2d(-30,15), Math.toRadians(0)) //drive to hive
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-59, 63, Math.toRadians(180)), Math.toRadians(180))
+                //.splineToLinearHeading(new Pose2d(-59, 63, Math.toRadians(180)), Math.toRadians(180))
                 //.splineTo(new Vector2d(-59, 63), Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(-59, 63), Math.toRadians(180)) //drive to the wall pick up
                 .strafeToLinearHeading(new Vector2d(45,40), Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(40, 15), Math.toRadians(180))
                 .waitSeconds(.5)
-                .splineTo(new Vector2d(37,65), Math.toRadians(270))
+                //.splineTo(new Vector2d(37,65), Math.toRadians(270))
                 .strafeToLinearHeading(new Vector2d(37,65),Math.toRadians(270))//park at spot
                 .build());
 
