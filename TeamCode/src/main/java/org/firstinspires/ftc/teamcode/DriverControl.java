@@ -29,15 +29,25 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.hardware.Outtake.Kd;
+import static org.firstinspires.ftc.teamcode.hardware.Outtake.Kf;
+import static org.firstinspires.ftc.teamcode.hardware.Outtake.Ki;
+import static org.firstinspires.ftc.teamcode.hardware.Outtake.Kp;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 @TeleOp(name = "Driver Control", group = "Concept")
-
+@Config
 public class DriverControl extends OpMode{
     /**
      * TASKS
@@ -60,6 +70,7 @@ public class DriverControl extends OpMode{
   public Robot r = null;
   @Override
   public void init() {
+      telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
       r = new Robot(hardwareMap,new Pose2d(0,0,0));
       telemetry.addData("Status","Initialized");
   }
@@ -84,6 +95,7 @@ public class DriverControl extends OpMode{
     double strafe = gamepad1.left_stick_x;
 
     boolean shooting = gamepad2.right_trigger > .1;
+    boolean intaking = gamepad2.left_trigger > .1;
     if (gamepad2.x){
         r.turnOnShooter();
     }
@@ -92,12 +104,23 @@ public class DriverControl extends OpMode{
     }
 
     r.driveRobot(drive, strafe, turn);
-    r.setIntakeState(shooting, gamepad2.leftTriggerWasPressed());
+    r.setIntakeState(intaking, shooting);
     //TODO Check if this behaves properly.  Might need a different condition for shooting
     r.toggleIntakeDirection(intakeDirection);
     r.shooterGate(shooting);
+    r.intake.updateIntake();
+    r.outtake.outtake.setVelocityPIDFCoefficients(Kp, Ki, Kd, Kf);
+
+    telemetry.addData("Gamepad2 left trigger", intaking);
+    telemetry.addData("Intake State", r.intake.intakeState);
     telemetry.addData("shooter vel: ", r.outtake.outtake.getVelocity());
     telemetry.addData("Status", "Run Time" + runtime.toString());
+
+    PIDFCoefficients pidf = r.outtake.outtake.getPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+      telemetry.addData("P,I,D,F (orig)", "%.04f, %.04f, %.04f, %.04f",
+              pidf.p, pidf.i, pidf.d, pidf.f);
+
   }
 
   @Override

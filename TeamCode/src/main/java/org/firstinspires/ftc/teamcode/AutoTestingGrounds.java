@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -22,10 +25,10 @@ public final class AutoTestingGrounds extends LinearOpMode {
     Vector2d redShootingPosition = new Vector2d(30, -10);
     Pose2d redGarden = new Pose2d(57, -60, Math.toRadians(0));
     Vector2d redAcrossField =new Vector2d(-35, -40);
-    Po
+
 
     Robot r = new Robot(hardwareMap,redStartingPosition);
-
+    ;
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(0, 0, 0);
@@ -46,11 +49,13 @@ public final class AutoTestingGrounds extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-35, -15, Math.toRadians(0)), Math.toRadians(0))
                 .endTrajectory();
 
+        /*
         TrajectoryActionBuilder redToPark = redAcrossField.fresh()
                 .setTangent(0)
                 .splineTo(new Vector2d(-34, -62), Math.toRadians(270))
                 .strafeToLinearHeading(new Vector2d(-35, -62), Math.toRadians(90))
                 .endTrajectory();
+                */
 
         //building traj
         Action RedToShootingPostion = redToShootingPosition.build();
