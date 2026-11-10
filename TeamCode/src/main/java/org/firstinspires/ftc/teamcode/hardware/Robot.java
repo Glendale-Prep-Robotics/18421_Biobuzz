@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class Robot {
 
     public MecanumDrive driveTrain;
-    public Outtake outtake;
-    Intake intake;
+    public static Outtake outtake;
+    public Intake intake;
 
 
         LED frontLED_red;
@@ -130,7 +130,7 @@ public class Robot {
     public Action startMotorBasic(){return setMotorSpeed(1);}
     public Action stopMotorBasic(){return setMotorSpeed(0); }
 
-    public class SetServoPosition implements Action {
+    public static class SetServoPosition implements Action {
         /**
          * This action only sets the position and waits a bit of time (definable in the action sequence.
          * @param packet
@@ -171,7 +171,5 @@ public class Robot {
             return false;
         }
     }
-
-
 
 }

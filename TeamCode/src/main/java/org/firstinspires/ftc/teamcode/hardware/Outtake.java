@@ -15,14 +15,19 @@ public class Outtake {
     //Constants
     public static double SHOOTER_GATE_CLOSED_POSITION = 0;
     public static double SHOOTER_GATE_OPEN_POSITION = 1;
-    public static double SHOOTER_SPEED = 925;
+    public static double SHOOTER_SPEED = 850;
     public static double SHOOTER_OFF = 0;
+    public static double Kp = 700;
+    public static double Kd = 0;
+    public static double Ki = 0;
+    public static double Kf = 19;
 
     public Outtake(HardwareMap hwm){
         outtake = hwm.get(DcMotorEx.class, "Outtake");
         shooterGate = hwm.get(Servo.class, "ShooterGate");
         outtake.setDirection(DcMotor.Direction.FORWARD);
         shooterGate.setDirection(Servo.Direction.REVERSE);
+
     }
     public void turnOnShooter(){
         outtake.setVelocity(SHOOTER_SPEED);
