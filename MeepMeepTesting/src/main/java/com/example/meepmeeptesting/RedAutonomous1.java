@@ -26,7 +26,7 @@ public class RedAutonomous1 {
 
         Pose2d redStartingPosition = new Pose2d(60,-10,Math.toRadians(180));
 
-        Pose2d blueStartingPosition = new Pose2d(-70,20,Math.toRadians(0));
+        Pose2d blueStartingPosition = new Pose2d(-70,16,Math.toRadians(0));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)

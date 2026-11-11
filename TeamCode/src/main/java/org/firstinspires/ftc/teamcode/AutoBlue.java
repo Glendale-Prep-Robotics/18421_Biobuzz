@@ -12,10 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
-@Autonomous(name="Autonomous Testing Grounds Blue")
-public final class AutoTestingGroundsBlue extends LinearOpMode {
+@Autonomous(name="Autonomous Blue")
+public final class AutoBlue extends LinearOpMode {
 
-    Pose2d blueStartingPosition = new Pose2d(-70,20,Math.toRadians(0));
+    Pose2d blueStartingPosition = new Pose2d(-70,16,Math.toRadians(0));
 
     Vector2d blueShootingPosition = new Vector2d(-30, 15);
     Pose2d blueGarden = new Pose2d(-59, 63, Math.toRadians(180));
