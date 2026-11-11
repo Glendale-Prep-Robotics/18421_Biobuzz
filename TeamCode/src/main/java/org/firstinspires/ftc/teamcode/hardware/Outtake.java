@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
@@ -18,8 +19,8 @@ public class Outtake {
     public static double SHOOTER_SPEED = 850;
     public static double SHOOTER_OFF = 0;
     public static double Kp = 700;
-    public static double Kd = 0;
     public static double Ki = 0;
+    public static double Kd = 0;
     public static double Kf = 19;
 
     public Outtake(HardwareMap hwm){
@@ -27,6 +28,7 @@ public class Outtake {
         shooterGate = hwm.get(Servo.class, "ShooterGate");
         outtake.setDirection(DcMotor.Direction.FORWARD);
         shooterGate.setDirection(Servo.Direction.REVERSE);
+        outtake.setVelocityPIDFCoefficients(Kp, Ki, Kd, Kf);
 
     }
     public void turnOnShooter(){

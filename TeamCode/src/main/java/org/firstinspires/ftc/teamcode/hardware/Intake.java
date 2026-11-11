@@ -57,4 +57,8 @@ public class Intake {
         }
     }
 
+    public void turnOnIntake(){
+        intake.setPower(1);
+    }
+
 }

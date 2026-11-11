@@ -15,9 +15,9 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 @Autonomous(name="Autonomous Blue")
 public final class AutoBlue extends LinearOpMode {
 
-    Pose2d blueStartingPosition = new Pose2d(-70,16,Math.toRadians(0));
+    Pose2d blueStartingPosition = new Pose2d(-55,24.5,Math.toRadians(0));
 
-    Vector2d blueShootingPosition = new Vector2d(-30, 15);
+    Vector2d blueShootingPosition = new Vector2d(-32.5,43.5);
     Pose2d blueGarden = new Pose2d(-59, 63, Math.toRadians(180));
     Vector2d blueAcrossField = new Vector2d(45, 40);
     Vector2d blueToPark = new Vector2d(37, 65);
@@ -30,9 +30,8 @@ public final class AutoBlue extends LinearOpMode {
 
         // build paths
         TrajectoryActionBuilder blueToShootingPosition = r.driveTrain.actionBuilder(blueStartingPosition)
-                .lineToX(30) // Drive to __ location
-                .strafeToLinearHeading(blueShootingPosition, Math.toRadians(180))
-                .waitSeconds(1)
+                .strafeToLinearHeading(blueShootingPosition, Math.toRadians(310))
+                .waitSeconds(1) //remove for time?
                 .endTrajectory();
 
         TrajectoryActionBuilder goingToGarden = blueToShootingPosition.fresh()
@@ -60,9 +59,11 @@ public final class AutoBlue extends LinearOpMode {
 
         Actions.runBlocking(
             new SequentialAction(
+                r.activateShooter(),
                 blueToShootingAction,
+                r.shoot(),
                 new SleepAction(2),
-                goingToGardenAction,
+                goingToGardenAction, //add in extra shooting?
                 blueGardenToAcrossFieldAction,
                 acrossFieldToBlueToParkAction
             )

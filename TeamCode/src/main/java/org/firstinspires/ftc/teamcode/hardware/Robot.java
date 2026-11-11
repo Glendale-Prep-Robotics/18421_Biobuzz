@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import static org.firstinspires.ftc.teamcode.hardware.Outtake.SHOOTER_SPEED;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -7,6 +9,8 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -164,12 +168,61 @@ public class Robot {
     //Example Action that has a condition to complete
 
 
-    public class StartIntakeMotors implements Action {
+    //HOW TO MAKE ACTIONS
+    //Make a class that tells HOW the action behaves
+    //Make the action that instantiates the class --> Call this in Auto
+
+    public class BasicAction implements Action{
+
         @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            intake.intake.setPower(1.0);
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            //do something
+            return false; //return false when done, otherwise return true
+        }
+    }
+
+    public Action basicAction(){
+        return new BasicAction();
+    }
+
+    public class TurnOnShooter implements Action{
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            outtake.turnOnShooter();
+            outtake.setShooterGate(false); //close gate
+            return outtake.outtake.getVelocity() < .85*SHOOTER_SPEED;
+        }
+    }
+
+    public Action activateShooter(){
+        return new TurnOnShooter();
+    }
+
+    public class Shoot implements Action{
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            intake.turnOnIntake();
+            outtake.setShooterGate(true); //open gate
             return false;
         }
     }
 
+    public class CloseShooterGate implements Action{
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            outtake.setShooterGate(false);
+            return false;
+        }
+    }
+
+    public Action shoot(){
+        return new SequentialAction(
+                new Shoot(),
+                new SleepAction(1),
+                new CloseShooterGate()
+        );
+    }
 }

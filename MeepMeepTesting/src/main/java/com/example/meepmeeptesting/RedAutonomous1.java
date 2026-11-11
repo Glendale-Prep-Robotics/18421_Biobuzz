@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 public class RedAutonomous1 {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(800);
+        MeepMeep meepMeep = new MeepMeep(700);
 
         Image img = null;
         try {
@@ -26,7 +26,7 @@ public class RedAutonomous1 {
 
         Pose2d redStartingPosition = new Pose2d(60,-10,Math.toRadians(180));
 
-        Pose2d blueStartingPosition = new Pose2d(-70,16,Math.toRadians(0));
+        Pose2d blueStartingPosition = new Pose2d(-61,28.5,Math.toRadians(0));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -53,7 +53,7 @@ public class RedAutonomous1 {
 
         myBot.runAction(myBot.getDrive().actionBuilder(blueStartingPosition)
                 //start at left wall blue side and shoot
-                .strafeToLinearHeading(new Vector2d(-30,15), Math.toRadians(0)) //drive to hive
+                .strafeToLinearHeading(new Vector2d(-32.5,43.5), Math.toRadians(310)) //drive to hive
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(180))
                 //.splineToLinearHeading(new Pose2d(-59, 63, Math.toRadians(180)), Math.toRadians(180))
