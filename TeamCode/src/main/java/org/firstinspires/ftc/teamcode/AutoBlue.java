@@ -9,6 +9,8 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
@@ -25,8 +27,10 @@ public final class AutoBlue extends LinearOpMode {
 
     Robot r;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
+
         r = new Robot(hardwareMap, blueStartingPosition);
 
         // build paths
@@ -76,8 +80,8 @@ public final class AutoBlue extends LinearOpMode {
                 collectToGardenAction,
                 new SleepAction(2),
                 blueGardenToAcrossFieldAction,
-                new SleepAction(2)
-                //acrossFieldToBlueToParkAction
+                new SleepAction(2),
+                acrossFieldToBlueToParkAction
             )
         );
     }
